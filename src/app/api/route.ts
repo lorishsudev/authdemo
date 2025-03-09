@@ -1,4 +1,4 @@
-export async function GET(request: Request) {
+export async function GET() {
     const data = {id: 1, name: 'John Doe'};
 
     return new Response(JSON.stringify(data), {
