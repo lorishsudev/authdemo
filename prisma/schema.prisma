@@ -1,0 +1,89 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+type MissionDataTasks {
+  challenges MissionDataTasksChallenges[]
+  status     String
+  task_id    String                       @db.ObjectId
+}
+
+type MissionDataTasksChallenges {
+  answer           String?
+  answer_text      String?
+  /// Multiple data types found: String: 50%, DateTime (Date): 50% out of 6 sampled entries
+  approvedAt       Json
+  description      String
+  sn               String
+  status           String
+  /// Multiple data types found: String: 50%, DateTime (Date): 50% out of 6 sampled entries
+  submittedAt      Json
+  submitted_answer String
+  type             String
+}
+
+type TasksChallenges {
+  answer      String
+  description String
+  sn          String
+  type        String
+}
+
+model Mission_Data {
+  id         String             @id @default(auto()) @map("_id") @db.ObjectId
+  mission_id String             @db.ObjectId
+  player_id  String             @db.ObjectId
+  status     String
+  tasks      MissionDataTasks[]
+}
+
+model Missions {
+  id                 String @id @default(auto()) @map("_id") @db.ObjectId
+  description        String
+  mission_percentage String
+  mission_type       String
+  name               String
+}
+
+model Tasks {
+  id          String            @id @default(auto()) @map("_id") @db.ObjectId
+  challenges  TasksChallenges[]
+  description String
+  mission_id  String            @db.ObjectId
+  name        String
+  order       String
+}
+
+model accounts {
+  id                String @id @default(auto()) @map("_id") @db.ObjectId
+  access_token      String
+  expires_at        Int
+  id_token          String
+  provider          String
+  providerAccountId String
+  scope             String
+  token_type        String
+  type              String
+  userId            String @db.ObjectId
+}
+
+model sessions {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  expires      DateTime @db.Date
+  sessionToken String
+  userId       String   @db.ObjectId
+}
+
+model users {
+  id            String @id @default(auto()) @map("_id") @db.ObjectId
+  email         String
+  /// Could not determine type: the field only had null or empty values in the sample set.
+  emailVerified Json?
+  image         String
+  name          String
+}
