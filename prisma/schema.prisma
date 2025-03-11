@@ -35,11 +35,14 @@ type TasksChallenges {
 }
 
 model Mission_Data {
-  id         String             @id @default(auto()) @map("_id") @db.ObjectId
-  mission_id String             @db.ObjectId
-  player_id  String             @db.ObjectId
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  mission_id String   @db.ObjectId
+  player_id  String   @db.ObjectId
   status     String
   tasks      MissionDataTasks[]
+
+  // 添加關聯：一個 Mission_Data 屬於一個 Missions
+  missions   Missions @relation(fields: [mission_id], references: [id])
 }
 
 model Missions {
@@ -48,6 +51,9 @@ model Missions {
   mission_percentage String
   mission_type       String
   name               String
+
+  // 添加關聯：一個 Missions 可以有多個 Mission_Data
+  mission_data       Mission_Data[]
 }
 
 model Tasks {

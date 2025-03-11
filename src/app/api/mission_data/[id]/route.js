@@ -6,12 +6,12 @@ export const GET = async (_, { params }) => {
 
     const { id } = params;
 
-    const missions = await prisma.Missions.findUnique({
+    const mission_data = await prisma.mission_Data.findUnique({
         where: {
             id
         }
     });
 
-    return NextResponse.json(missions);
+    return NextResponse.json(mission_data);
 
 };
