@@ -1,3 +1,9 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -45,12 +51,20 @@ model Mission_Data {
   missions   Missions @relation(fields: [mission_id], references: [id])
 }
 
+
+
 model Missions {
+  
   id                 String @id @default(auto()) @map("_id") @db.ObjectId
-  description        String
-  mission_percentage String
-  mission_type       String
+  description        String?
+  mission_type       String?
   name               String
+  category           String?
+  views              Int? @default(0)  // 預設值 0，不用檢查
+  start_time         DateTime?
+  end_time           DateTime?
+  createdAt  DateTime?   @default(now())
+  updatedAt  DateTime?   @updatedAt
 
   // 添加關聯：一個 Missions 可以有多個 Mission_Data
   mission_data       Mission_Data[]
@@ -93,3 +107,4 @@ model users {
   image         String
   name          String
 }
+
