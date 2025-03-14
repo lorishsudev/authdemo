@@ -1,26 +1,29 @@
 import { prisma } from "../../libs/prismadb";
-import { NextResponse } from 'next/server';
-
+import { ResponseHandler } from "../../utils/ResponseHandler";
 
 export const GET = async () => {
-  const missions = await prisma.missions.findMany();
+    try {
+        const missions = await prisma.missions.findMany();
 
-  return NextResponse.json(missions);
+        if (!missions) {
+            return ResponseHandler.error(null, "Missions not found", 404);
+        }
 
-};
+        return ResponseHandler.success(missions);
+    } catch (err) {
+
+        return ResponseHandler.error(err, "GET Error", 500);
+
+    }
+}
 
 export const POST = async (request) => {
-  try {
-    const body = await request.json();
+    try {
+        const body = await request.json();
+        const mission = await prisma.missions.create({ data: body });
 
-    const newMissions = await prisma.missions.create({
-        data: body  // 直接使用 body，而不是解構
-    });
-
-    return NextResponse.json(newMissions);
-
-} catch (err) {
-    return NextResponse.json({ message: "POST Error", err }, { status: 500 });
+        return ResponseHandler.success(mission);
+    } catch (err) {
+        return ResponseHandler.error(err, "POST Error", 500);
+    }
 }
-}
-
