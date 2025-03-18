@@ -1,22 +1,6 @@
 import { prisma } from "../../libs/prismadb";
 import { ResponseHandler } from "../../utils/ResponseHandler";
 
-// export const GET = async () => {
-//     try {
-//         const missions = await prisma.missions.findMany();
-
-//         if (!missions) {
-//             return ResponseHandler.error(null, "Missions not found", 404);
-//         }
-
-//         return ResponseHandler.success(missions);
-//     } catch (err) {
-
-//         return ResponseHandler.error(err, "GET Error", 500);
-
-//     }
-// }
-
 export const GET = async (request) => {
     try {
         // 使用 request.nextUrl.searchParams 獲取查詢參數

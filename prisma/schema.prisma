@@ -23,12 +23,12 @@ type MissionDataTasksChallenges {
   answer           String?
   answer_text      String?
   /// Multiple data types found: String: 50%, DateTime (Date): 50% out of 6 sampled entries
-  approvedAt       Json
+  approvedAt       DateTime?
   description      String
   sn               String
   status           String
   /// Multiple data types found: String: 50%, DateTime (Date): 50% out of 6 sampled entries
-  submittedAt      Json
+  submittedAt      DateTime?
   submitted_answer String
   type             String
 }
@@ -38,10 +38,6 @@ type TasksChallenges {
   description String
   sn          String
   type        String
-  submitted_answer String?
-  submittedAt DateTime?
-  status      String?
-  approvedAt DateTime?
 }
 
 model Mission_Data {
@@ -52,8 +48,10 @@ model Mission_Data {
   tasks      MissionDataTasks[]
 
   // 添加關聯：一個 Mission_Data 屬於一個 Missions
-  missions   Missions @relation(fields: [mission_id], references: [id])
+  mission   Missions @relation(fields: [mission_id], references: [id])
+  
 }
+
 
 model Missions {
   
@@ -71,6 +69,9 @@ model Missions {
 
   // 添加關聯：一個 Missions 可以有多個 Mission_Data
   mission_data       Mission_Data[]
+
+  // 添加關聯：一個 Missions 可以有多個 Tasks
+  tasks              Tasks[]
 }
 
 model Tasks {
@@ -82,6 +83,10 @@ model Tasks {
   order       String
   createdAt  DateTime?   @default(now())
   updatedAt  DateTime?   @updatedAt
+
+  // 建立與 Missions 的關聯
+  mission     Missions          @relation(fields: [mission_id], references: [id])
+
 }
 
 model accounts {

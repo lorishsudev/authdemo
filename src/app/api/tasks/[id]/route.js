@@ -7,9 +7,9 @@ export const PUT = async (request, context) => {
     try {
         const { id } = (await context.params);
         const body = await request.json();
-        const mission_data = await prisma.mission_Data.update({ where: { id }, data: body });
+        const task = await prisma.tasks.update({ where: { id }, data: body });
 
-        return ResponseHandler.success(mission_data);
+        return ResponseHandler.success(task);
     } catch (err) {
         return ResponseHandler.error(err, "PUT Error", 500);
     }
@@ -18,9 +18,9 @@ export const PUT = async (request, context) => {
 export const DELETE = async (request, context) => {
     try {
         const { id } = (await context.params);
-        const mission_Data = await prisma.mission_Data.delete({ where: { id } });
+        const task = await prisma.tasks.delete({ where: { id } });
 
-        return ResponseHandler.success(mission_Data);
+        return ResponseHandler.success(task);
     } catch (err) {
         return ResponseHandler.error(err, "DELETE Error", 500);
     }
