@@ -38,6 +38,10 @@ type TasksChallenges {
   description String
   sn          String
   type        String
+  submitted_answer String?
+  submittedAt DateTime?
+  status      String?
+  approvedAt DateTime?
 }
 
 model Mission_Data {
@@ -51,16 +55,15 @@ model Mission_Data {
   missions   Missions @relation(fields: [mission_id], references: [id])
 }
 
-
-
 model Missions {
   
   id                 String @id @default(auto()) @map("_id") @db.ObjectId
   description        String?
-  mission_type       String?
+  mission_type       String @default("一般")
   name               String
   category           String?
-  views              Int? @default(0)  // 預設值 0，不用檢查
+  views              Int @default(0)  // 預設值 0，不用檢查
+  status             String @default("N")
   start_time         DateTime?
   end_time           DateTime?
   createdAt  DateTime?   @default(now())
@@ -77,6 +80,8 @@ model Tasks {
   mission_id  String            @db.ObjectId
   name        String
   order       String
+  createdAt  DateTime?   @default(now())
+  updatedAt  DateTime?   @updatedAt
 }
 
 model accounts {
